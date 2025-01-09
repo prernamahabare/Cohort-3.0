@@ -1,0 +1,64 @@
+1. pwd (Print Working Directory)
+   - Description: Displays the current directory path.
+   - Windows Equivalent: 
+     echo %cd%
+
+2. cd (Change Directory)
+   - Description: Navigates to a different directory.
+   - Windows Equivalent: 
+     cd [directory_path]
+
+3. ls (List Directory Contents)
+   - Description: Lists files and directories in the current directory.
+   - Windows Equivalent: 
+     dir
+
+4. mkdir (Make Directory)
+   - Description: Creates a new directory.
+   - Windows Equivalent: 
+     mkdir [directory_name]
+
+5. touch (Create File)
+   - Description: Creates an empty file.
+   - Windows Equivalent: 
+     type nul > filename
+
+6. cat (Display File Contents)
+   - Description: Displays the contents of a file.
+   - Windows Equivalent: 
+     type filename
+
+7. vi (Text Editor)
+   - Description: Opens the vi text editor for editing files.
+   - Windows Equivalent: Use notepad or install vim:
+     notepad filename
+
+8. mv (Move or Rename File)
+   - Description: Moves or renames files/directories.
+   - Windows Equivalent: 
+     move source destination
+
+9. cp (Copy File)
+   - Description: Copies files or directories.
+   - Windows Equivalent: 
+     copy source destination
+
+10. clear (Clear Terminal Screen)
+    - Description: Clears the terminal screen.
+    - Windows Equivalent: 
+      cls
+
+11. npm (Node Package Manager)
+    - Description: Manages JavaScript packages for Node.js.
+    - Windows Equivalent: Works the same if Node.js is installed:
+      npm install [package_name]
+
+12. node (Run Node.js Scripts)
+    - Description: Executes JavaScript files using Node.js.
+    - Windows Equivalent: Same command:
+      node filename.js
+
+13. git (Version Control)
+    - Description: Manages version control for projects.
+    - Windows Equivalent: Same command if Git is installed:
+      git clone [repository_url]
