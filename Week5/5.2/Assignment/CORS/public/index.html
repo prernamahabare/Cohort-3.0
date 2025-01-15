@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.6/axios.min.js"></script>
+
+</head>
+
+<body>
+    <!-- The command npx serve is typically used to host static files (like HTML, CSS, JavaScript, or other assets) on a local server quickly. -->
+    <!-- Not need to find port it will automatically assign the port which is empty -->
+    <!-- Folder Structure := public/index.html -->
+     
+    <div id="post"></div>
+    <button onclick="submit()">submit</button>
+</body>
+
+<script>
+
+    async function submit() {
+        const res = axios.get('http://localhost:3000/sum?a=2&b=3');
+    }
+
+</script>
+
+</html>
