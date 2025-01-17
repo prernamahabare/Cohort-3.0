@@ -9,6 +9,20 @@ app.use(express.json());
 
 let users = [];
 
+// User define token function.
+function getRandomToken(){
+
+    let options = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    let token = '';
+
+    for(let i = 0; i < options.length; i++){
+        token += options[Math.floor(Math.random() * options.length)]
+    }
+
+    return token;
+}
+
 app.post('/signup', function (req, res) {
     let username = req.body.username;
     let password = req.body.password;
@@ -23,28 +37,6 @@ app.post('/signup', function (req, res) {
     })
 })
 
-function auth(req, res, next){
-    const token = req.headers.token;
-
-    if(token){
-        jwt.verify(token, secretKey, function(err, data) {
-            if(err){
-                res.status(401).send({
-                    message: "Some err occur"
-                })
-            }else{
-                req.user = data;
-                next();
-            }
-        })
-    }else{
-        res.status(401).send({
-            message: "Unauthorized access"
-        })
-    }
-
-    
-}
 app.post('/signin', function (req, res) {
     let username = req.body.username;
     let password = req.body.password;
@@ -52,9 +44,9 @@ app.post('/signin', function (req, res) {
     const user = users.find((u) => (u.username == username && u.password == password));
 
     if (user) {
-        const token = jwt.sign({
-            username : username
-        }, secretKey);
+        // for user Define
+        const token = getRandomToken();
+        user.token = token;
 
         res.send({
             msg : "Your Token is as Follow:",
@@ -68,13 +60,11 @@ app.post('/signin', function (req, res) {
     }
 })
 
-app.get('/me', auth, function(req, res){
+app.get('/me', function(req, res){
     const token = req.headers.token;
 
-    const userDetail = jwt.verify(token, secretKey);
-    const username = userDetail.username;
-
-    const user = users.find(u => u.username === username);
+    // for user Define
+    const user = users.find(u => u.token == token)
 
     if(user){
         res.send({
