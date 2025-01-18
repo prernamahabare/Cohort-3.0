@@ -23,6 +23,8 @@ app.post('/signup', function (req, res) {
     })
 })
 
+// try creating a middleware called auth that verifies if a user is logged in and ends the request early if the user isn’t logged in
+
 function auth(req, res, next){
     const token = req.headers.token;
 
@@ -30,10 +32,11 @@ function auth(req, res, next){
         jwt.verify(token, secretKey, function(err, data) {
             if(err){
                 res.status(401).send({
-                    message: "Some err occur"
+                    message: "Some err occur Ctrl is in auth fN"
                 })
             }else{
                 req.user = data;
+                console.log(req.user);
                 next();
             }
         })
@@ -69,12 +72,7 @@ app.post('/signin', function (req, res) {
 })
 
 app.get('/me', auth, function(req, res){
-    const token = req.headers.token;
-
-    const userDetail = jwt.verify(token, secretKey);
-    const username = userDetail.username;
-
-    const user = users.find(u => u.username === username);
+    const user = users.find(u => u.username === req.user.username);
 
     if(user){
         res.send({
