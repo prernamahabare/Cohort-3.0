@@ -4,16 +4,17 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
 const User = new Schema({
-    username: String,
+    email: { type: String, required: true, unique: true},
     name: String,
-    password: String
+    password: { type: String, required: true }
 })
 
 const Todo = new Schema({
-    userId: ObjectId,
-    title: String,
-    descrption: String,
-    done: Boolean,
+    userId:{ type: ObjectId, required: true },
+    title: { type: String, required: true },
+    description: String,
+    done: { type: Boolean, default: false },
+    date: { type: Date, default: Date.now },
 })
 
 const UserModel = mongoose.model('users', User);

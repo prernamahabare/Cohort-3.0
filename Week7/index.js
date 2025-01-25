@@ -1,6 +1,8 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const { z } = require("zod");
 const { UserModel, TodoModel } = require("./db");
 const { auth, secretKey } = require("./auth")
 
@@ -10,15 +12,23 @@ const app = express();
 app.use(express.json());
 
 app.post("/signup", async function (req, res) {
-    const username = req.body.username;
+    const email = req.body.email;
     const name = req.body.name;
     const password = req.body.password;
 
+    if (!email || !name || !password) {
+        return res.status(400).send({
+            msg: "All fields (email, name, password) are required!"
+        });
+    }
+
     try {
+        const encryptedpassword = await bcrypt.hash(password, 10);
+
         const user = await UserModel.create({
-            username: username,
+            email: email,
             name: name,
-            password: password
+            password: encryptedpassword
         })
 
         res.send({
@@ -27,6 +37,13 @@ app.post("/signup", async function (req, res) {
         })
 
     } catch (err) {
+        if (err.code === 11000) {
+            // Handle duplicate email error
+            return res.status(409).send({
+                msg: "Email already exists!"
+            });
+        }
+
         console.log(err);
         res.status(403).send({
             msg: "SignUp Failed!"
@@ -36,18 +53,27 @@ app.post("/signup", async function (req, res) {
 })
 
 app.post("/signin", async function (req, res) {
-    const username = req.body.username;
+    const email = req.body.email;
     const password = req.body.password;
 
     try {
-        const responce = await UserModel.findOne({
-            username: username,
-            password: password
+        const user = await UserModel.findOne({
+            email: email
         })
 
-        if (responce) {
+        if (!user) {
+            return res.status(404).send({ msg: "User Not found!" });
+        }
+
+        const decrptyPassword = await bcrypt.compare(password, user.password);
+
+        if (!decrptyPassword) {
+            return res.status(401).send({ msg: "Invalid email or password!" });
+        }
+
+        if (user) {
             const token = jwt.sign({
-                id: responce._id.toString()
+                id: user._id.toString()
             }, secretKey)
 
             res.json({
@@ -72,14 +98,14 @@ app.post("/signin", async function (req, res) {
 app.post("/createTodo", auth, async function (req, res) {
     const userId = req.userId;
     const title = req.body.title;
-    const descrption = req.body.descrption;
+    const description = req.body.description;
     const done = req.body.done;
 
     try {
         const todo = await TodoModel.create({
             userId: userId,
             title: title,
-            descrption: descrption,
+            description: description,
             done: done
         })
 
