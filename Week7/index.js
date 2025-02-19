@@ -12,6 +12,21 @@ const app = express();
 app.use(express.json());
 
 app.post("/signup", async function (req, res) {
+    const responce = z.object({
+        email: z.string().email(),
+        name: z.string(),
+        password: z.string().min(6),
+    })
+
+    const parseData = responce.safeParse(req.body);
+
+    if (!parseData.success) {
+        res.json({
+            msg: "Invalid Credentials",
+            error: parseData.error
+        })
+    }
+
     const email = req.body.email;
     const name = req.body.name;
     const password = req.body.password;
@@ -53,6 +68,19 @@ app.post("/signup", async function (req, res) {
 })
 
 app.post("/signin", async function (req, res) {
+    const responce = z.object({
+        email: z.string().email(),
+        password: z.string().min(6)
+    })
+    const parseData = responce.safeParse(req.body);
+
+    if(!parseData.success){
+        res.json({
+            msg: "Invalid Credentials",
+            error: parseData.error
+        })
+    }
+
     const email = req.body.email;
     const password = req.body.password;
 

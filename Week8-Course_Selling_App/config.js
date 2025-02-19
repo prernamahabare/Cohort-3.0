@@ -1,0 +1,7 @@
+JWT_USER_SECREATE = process.env.JWT_USER_SECREATE;
+JWT_ADMIN_SECREATE = process.env.JWT_ADMIN_SECREATE;
+
+module.exports = {
+    JWT_ADMIN_SECREATE,
+    JWT_USER_SECREATE
+}
