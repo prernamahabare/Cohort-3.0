@@ -106,71 +106,49 @@ import { createContext, useContext, useState } from 'react'
 // Context API
 // Above code with context API
 
-const CountContext =  createContext();
 
-function CountContextProvider({ children }) {
-  const [count, setCount] = useState(0);
 
-  return <CountContext.Provider value={{ count, setCount }}>
+const CountContext = createContext();
+function CountContextProvider({children}){
+  const [count, setCount] = useState(1);
+
+  return <CountContext.Provider value={{count, setCount}}>
     {children}
   </CountContext.Provider>
-
 }
 
-function Parent() {
-  return (
-    <CountContextProvider>
-      <Value />
-      <Incrase />
-      <Decrease />
-    </CountContextProvider>
-  )
-}
-
-function App() {
-  return (
+function App(){
+  return(
     <>
-      {/* way 1 */}
-      <CountContextProvider>
-        <Incrase />
-        <Decrease />
-        <Value />
-      </CountContextProvider>
-
-      {/* way 2 */}
-      {/* <Parent /> */}
+    <Parent/>
     </>
+
   )
 }
 
 export default App;
 
-
-function Incrase() {
-  const { count, setCount } = useContext(CountContext);
-  return (
-    <>
-      <button onClick={() => setCount(count + 1)}>Incrase</button>
-    </>
+function Parent(){
+  return(
+    <CountContextProvider>
+      <Value/>
+      <Increase/>
+      <Decrease/>
+    </CountContextProvider>
   )
 }
 
-function Decrease() {
-  const { count, setCount } = useContext(CountContext);
-  return (
-    <>
-      <button onClick={() => setCount(count - 1)}>Decrase</button>
-    </>
-  )
+function Increase(){
+  const {count, setCount} = useContext(CountContext);
+  return <button onClick={()=> setCount(count + 1)}>Increase</button>
 }
 
-function Value() {
-  const { count } = useContext(CountContext);
-  return (
-    <>
-      <div>{count}</div>
-    </>
-  )
+function Decrease(){
+  const {count, setCount} = useContext(CountContext);
+  return <button onClick={()=> setCount(count - 1)}>Decrease</button>
 }
 
-
+function Value(){
+  const {count, setCount} = useContext(CountContext);
+  return <div>{count}</div>
+}
