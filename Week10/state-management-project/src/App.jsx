@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 
 // function App() {
@@ -59,51 +59,118 @@ import { useState } from 'react'
 
 
 // Old Code
+// function App() {
+//   const [count, setCount] = useState(1);
+//   return (
+//     <>
+//       <div>Hey I m Prerna </div>
+//       <Value count = {count}/>
+//       <Increase count = {count} setCount = {setCount}/>
+//       <Decrease count = {count} setCount = {setCount}/>
+//     </>
+
+//   )
+// }
+
+// export default App;
+
+// function Increase({count, setCount}){
+//   return(
+//     <>
+//     {/* way1 */}
+//     {/* <button onClick={() => setCount(count - 1)}>Decrese</button> */}
+
+//     {/* way2 */}
+//     <button onClick={() => setCount(prevCount => prevCount + 1)}>Increse</button>
+//     </>
+//   )
+// }
+
+// function Decrease({count, setCount}){
+//   return(
+//     <>
+//     <button onClick={() => setCount(count - 1)}>Decrese</button>
+//     </>
+//   )
+// }
+
+// function Value({count}){
+//   return(
+//     <>
+//     <div>{count}</div>
+//     </>
+//   )
+// }
+
+
+// Context API
+// Above code with context API
+
+const CountContext =  createContext();
+
+function CountContextProvider({ children }) {
+  const [count, setCount] = useState(0);
+
+  return <CountContext.Provider value={{ count, setCount }}>
+    {children}
+  </CountContext.Provider>
+
+}
+
+function Parent() {
+  return (
+    <CountContextProvider>
+      <Value />
+      <Incrase />
+      <Decrease />
+    </CountContextProvider>
+  )
+}
+
 function App() {
-  const [count, setCount] = useState(1);
   return (
     <>
-      <div>Hey I m Prerna </div>
-      <Value count = {count}/>
-      <Increase count = {count} setCount = {setCount}/>
-      <Decrease count = {count} setCount = {setCount}/>
-    </>
+      {/* way 1 */}
+      <CountContextProvider>
+        <Incrase />
+        <Decrease />
+        <Value />
+      </CountContextProvider>
 
+      {/* way 2 */}
+      {/* <Parent /> */}
+    </>
   )
 }
 
 export default App;
 
-function Increase({count, setCount}){
-  return(
-    <>
-    {/* way1 */}
-    {/* <button onClick={() => setCount(count - 1)}>Decrese</button> */}
 
-    {/* way2 */}
-    <button onClick={() => setCount(prevCount => prevCount + 1)}>Increse</button>
+function Incrase() {
+  const { count, setCount } = useContext(CountContext);
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>Incrase</button>
     </>
   )
 }
 
-function Decrease({count, setCount}){
-  return(
+function Decrease() {
+  const { count, setCount } = useContext(CountContext);
+  return (
     <>
-    <button onClick={() => setCount(count - 1)}>Decrese</button>
+      <button onClick={() => setCount(count - 1)}>Decrase</button>
     </>
   )
 }
 
-function Value({count}){
-  return(
+function Value() {
+  const { count } = useContext(CountContext);
+  return (
     <>
-    <div>{count}</div>
+      <div>{count}</div>
     </>
   )
 }
-
-
-// Context API
-// Above code with context API
 
 
