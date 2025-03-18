@@ -2,6 +2,7 @@ import { useState } from 'react'
 import useCounter from './hooks/useCounter'
 import { useFetch12, useFetchDynamic, useRefecth } from './hooks/useFetch'
 import usePrev from './hooks/usePrev';
+import useDebounce from './hooks/useDebounce';
 
 
 function App() {
@@ -16,6 +17,14 @@ function App() {
   /* Hook UsePrev */
   const [value, setValue] = useState(0);
   const prevCount = usePrev(value);
+
+  // Hook UseDebounce
+  const [deBouncevalue, setdeBounceValue] = useState(0);
+  function change(e) {
+    setdeBounceValue(e.target.value)
+  }
+  const debouncedValue = useDebounce(deBouncevalue, 3000);
+
 
   return (
     <>
@@ -49,6 +58,11 @@ function App() {
       <p>Current Count: {value}</p>
       <p>Previous Count: {prevCount}</p>
       <button onClick={() => setValue(value + 1)}>Increment</button>
+
+
+      {/* Hook UseDebounce */}
+      <input type="text" value={deBouncevalue} onChange={change} />
+      <p>Debounced Value: {debouncedValue}</p>
     </>
   )
 }
