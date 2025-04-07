@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, memo } from 'react';
 import { Counter } from './store/atom/CounterAtom';
 import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+
 
 // Context API
 // const CountContext = createContext();
@@ -53,50 +54,76 @@ import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
 // }
 
 
+// function App() {
+//   return (
+//     <>
+//       <RecoilRoot>
+//         <Parent />
+//       </RecoilRoot>
+//     </>
+//   )
+// }
+
+// function Parent() {
+
+//   return (
+//     <>
+//       < Value />
+//       <Increase />
+//       <Decrease />
+//     </>
+//   )
+
+// }
+
+// function Value() {
+//   const count = useRecoilValue(Counter);
+//   return (
+//     <div>{count}</div>
+//   )
+// }
+
+// function Increase() {
+//   const setCount = useSetRecoilState(Counter);
+//   return (
+//     <div>
+//       <button onClick={() => { setCount(c => c + 1) }}>Increase</button>
+//     </div>
+//   )
+// }
+
+// function Decrease() {
+//   const setCount = useSetRecoilState(Counter);
+//   return (
+//     <div>
+//       <button onClick={() => { setCount(c => c - 1) }}>Decrease</button>
+//     </div>
+//   )
+// }
+
+// export default App
+
+
 function App() {
   return (
     <>
-      <RecoilRoot>
-        <Parent />
-      </RecoilRoot>
-    </>
-  )
+    </>)
+
 }
 
-function Parent() {
-
+const Increase = memo(function () {
   return (
     <>
-      < Value />
-      <Increase />
-      <Decrease />
+      <button>Increase</button>
     </>
   )
-
-}
-
-function Value() {
-  const count = useRecoilValue(Counter);
-  return (
-    <div>{count}</div>
-  )
-}
+})
 
 function Increase() {
-  const setCount = useSetRecoilState(Counter);
   return (
-    <div>
-      <button onClick={() => { setCount(c => c + 1) }}>Increase</button>
-    </div>
-  )
-}
-
-function Decrease() {
-  const setCount = useSetRecoilState(Counter);
-  return (
-    <div>
-      <button onClick={() => { setCount(c => c - 1) }}>Decrease</button>
-    </div>
+    <>
+      <button>Increase</button>
+    </>
   )
 }
 
