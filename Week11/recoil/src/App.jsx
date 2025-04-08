@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, memo, useEffect } from 'react';
-import { Counter } from './store/atom/CounterAtom';
+import { CounterAtom, isEvenSelector } from './store/atom/CounterAtom';
 import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
 
 
@@ -104,61 +104,104 @@ import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
 // export default App
 
 // memo lets you skip re-rendering a component when its props are unchanged.
+// function App() {
+
+//   return (
+//     <>
+//       <RecoilRoot>
+//         <Parent />
+//       </RecoilRoot>
+//     </>)
+
+// }
+
+// function Parent() {
+//   const [count, setCount] = useState(0);
+
+//   useEffect(() => {
+//     setInterval(() => {
+//       setCount(c => c + 1);
+//     }, 3000);
+
+//   }, [])
+
+//   return (
+//     <>
+
+//       <div>
+//         <Value />
+//         <Increase />
+//         <Decrease />
+//       </div>
+
+//     </>)
+// }
+
+// const Value = memo(function () {
+//   return (
+//     <>
+//       <div style={{ margin: "auto", border: "3px solid Black" }}>1</div></>
+//   )
+// })
+
+// const Increase = memo(function () {
+//   return (
+//     <>
+//       <button style={{ padding: "5px", margin: "20px" }}>Increase</button>
+//     </>
+//   )
+// })
+
+// const Decrease = memo(function () {
+//   // const setCount = useSetRecoilState(Counter);
+//   return (
+//     <>
+//       <button style={{ padding: "5px", margin: "20px" }}>Decrease</button>
+//     </>
+//   )
+// })
+
+// export default App
+
+
+
 function App() {
-
   return (
-    <>
-      <RecoilRoot>
-        <Parent />
-      </RecoilRoot>
-    </>)
+    <RecoilRoot>
+      <Button />
+      <Counter />
+      <IsEven />
+    </RecoilRoot>
+  )
 
 }
 
-function Parent() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    setInterval(() => {
-      setCount(c => c + 1);
-    }, 3000);
-
-  }, [])
-
+function Button() {
+  const setCount = useSetRecoilState(CounterAtom);
   return (
-    <>
-
-      <div>
-        <Value />
-        <Increase />
-        <Decrease />
-      </div>
-
-    </>)
+    <div>
+      <button onClick={() => setCount(c => c + 2)}>Increase</button>
+      <button onClick={() => setCount(c => c - 1)}>Decrease</button>
+    </div>
+  )
 }
 
-const Value = memo(function () {
+function Counter() {
+  const count = useRecoilValue(CounterAtom);
   return (
-    <>
-      <div style={{ margin: "auto", border: "3px solid Black" }}>1</div></>
+    <div>
+      {count}
+    </div>
   )
-})
-
-const Increase = memo(function () {
+}
+// Use of selector
+function IsEven() {
+  const even = useRecoilValue(isEvenSelector);
   return (
-    <>
-      <button style={{ padding: "5px", margin: "20px" }}>Increase</button>
-    </>
+    <div>
+      {even ? "Even" : "Odd"}
+    </div>
   )
-})
+}
 
-const Decrease = memo(function () {
-  // const setCount = useSetRecoilState(Counter);
-  return (
-    <>
-      <button style={{ padding: "5px", margin: "20px" }}>Decrease</button>
-    </>
-  )
-})
-
-export default App
+export default App;
