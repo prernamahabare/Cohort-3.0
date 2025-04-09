@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import axios from 'axios';
 
 // export const notificationAtom = atom({
 //     key: "notificationAtom ",
@@ -33,13 +34,25 @@ import { atom, selector } from "recoil";
 // })
 
 // As below name changed bez api that i m using is having that names.
+// export const ItemAtom = atom({
+//     key: "ItemAtom",
+//     default: ({
+//         userId: 0,
+//         id: 10,
+//         title: 14,
+//         completed: 20
+//     })
+// })
+
+// / Second way of Asynchronous data queries and  optimal
 export const ItemAtom = atom({
     key: "ItemAtom",
-    default: ({
-        userId: 0,
-        id: 10,
-        title: 14,
-        completed: 20
+    default: selector({
+        key: "ItemInsideSelector",
+        get: async() => {
+            const res = await axios.get("https://jsonplaceholder.typicode.com/todos/1")
+            return res.data
+        }
     })
 })
 

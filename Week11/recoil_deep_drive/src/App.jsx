@@ -14,17 +14,18 @@ function App() {
 
 function Main() {
   const [networkCount, setNetworkCount] = useRecoilState(ItemAtom)
+  const SumOfItem = useRecoilValue(ItemSelector);
   
   // One way of Asynchronous data queries but not optimal
-  useEffect(()=>{
-    axios.get("https://jsonplaceholder.typicode.com/todos/1")
-    .then(res => {
-      setNetworkCount(res.data)
-    })
-  }, [])
-  console.log(networkCount);
+  // useEffect(()=>{
+  //   axios.get("https://jsonplaceholder.typicode.com/todos/1")
+  //   .then(res => {
+  //     setNetworkCount(res.data)
+  //   })
+  // }, [])
+  // console.log(networkCount);
 
-  const SumOfItem = useRecoilValue(ItemSelector);
+  
 
 
   return (
