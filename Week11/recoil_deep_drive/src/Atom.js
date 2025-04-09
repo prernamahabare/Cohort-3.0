@@ -32,23 +32,24 @@ import { atom, selector } from "recoil";
 //     })
 // })
 
+// As below name changed bez api that i m using is having that names.
 export const ItemAtom = atom({
-    key:"ItemAtom",
-    default:({
-        notification: 0,
-        message:10,
-        job:14,
-        network:20
+    key: "ItemAtom",
+    default: ({
+        userId: 0,
+        id: 10,
+        title: 14,
+        completed: 20
     })
 })
 
 export const ItemSelector = selector({
-    key:"ItemSelector",
-    get:(function ({get}){
+    key: "ItemSelector",
+    get: (function ({ get }) {
 
         const allItem = get(ItemAtom);
 
-        return allItem.notification + allItem.message + allItem.job + allItem.network;
+        return allItem.userId + allItem.id + allItem.title + allItem.completed
     })
 })
 
